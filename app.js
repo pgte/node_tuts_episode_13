@@ -8,13 +8,14 @@ var MemStore = require('connect/middleware/session/memory');
 
 app.configure(function() {
   app.use(express.logger());
-  app.use(express.bodyDecoder());
+  app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.staticProvider(__dirname + '/static'));
-  app.use(express.cookieDecoder());
-  app.use(express.session({store: MemStore( {
+  app.use(express.static(__dirname + '/static'));
+  app.use(express.cookieParser());
+  app.use(express.session({store: MemStore({
     reapInterval: 60000 * 10
-  })}));
+  }), secret:'foobar'
+}));
 });
 
 app.configure('development', function () {
